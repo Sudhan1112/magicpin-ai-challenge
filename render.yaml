@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: vera-merchant-os
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /v1/healthz
+    numInstances: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: OPENAI_MODEL
+        value: gpt-5.4-mini
+      - key: OPENAI_TIMEOUT_MS
+        value: "8000"
+      - key: VERA_MAX_ACTIONS_PER_TICK
+        value: "5"
+      - key: VERA_TEAM_NAME
+        value: Vera Merchant OS
+      - key: VERA_TEAM_MEMBERS
+        value: Sudhanshu Kumar
+      - key: VERA_VERSION
+        value: 2.0.0
+      - key: VERA_SUBMITTED_AT
+        value: 2026-07-03T00:00:00.000Z
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: VERA_CONTACT_EMAIL
+        sync: false

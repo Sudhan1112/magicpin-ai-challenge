@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.env
+.env.local
+npm-debug.log*
+*.tsbuildinfo
+artifacts/
+dataset/generated/
+.coverage/
+__pycache__/
+*.pyc

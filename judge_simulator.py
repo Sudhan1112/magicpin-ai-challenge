@@ -6,9 +6,9 @@ magicpin AI Challenge — LLM-Powered Judge Simulator
 A strict but fair judge that scores your bot and explains WHY.
 
 HOW TO USE:
-1. Edit the CONFIGURATION section below (lines 25-45)
-2. Set your LLM provider and API key
-3. Set your bot URL
+1. Set LLM_PROVIDER and LLM_API_KEY environment variables
+2. Set BOT_URL for the running bot
+3. Optionally set LLM_MODEL
 4. Run: python judge_simulator.py
 
 That's it!
@@ -16,33 +16,34 @@ That's it!
 Author: magicpin AI Challenge Team
 """
 
+import os
+
 # =============================================================================
 # ██████  CONFIGURATION - EDIT THIS SECTION ██████
 # =============================================================================
 
 # Your bot's URL (where your bot is running)
-BOT_URL = "http://localhost:8080"
+BOT_URL = os.environ.get("BOT_URL", "http://localhost:3000")
 
 # Choose your LLM provider: "openai", "anthropic", "gemini", "deepseek", "groq", "ollama", "openrouter"
-LLM_PROVIDER = "openai"
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "openai")
 
 # Your API key (paste your key here)
-LLM_API_KEY = ""  # <-- PUT YOUR API KEY HERE
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
 
 # Model to use (leave empty for default, or specify like "gpt-4o", "claude-3-5-sonnet-20241022", etc.)
-LLM_MODEL = ""  # <-- Optional: specify model or leave empty for default
+LLM_MODEL = os.environ.get("LLM_MODEL", "")
 
 # For Ollama only: local server URL
-OLLAMA_URL = "http://localhost:11434"
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 
 # Which test to run by default
-TEST_SCENARIO = "all"
+TEST_SCENARIO = os.environ.get("TEST_SCENARIO", "all")
 
 # =============================================================================
 # ██████  END OF CONFIGURATION - DON'T EDIT BELOW THIS LINE ██████
 # =============================================================================
 
-import os
 import sys
 import json
 import time
@@ -925,8 +926,7 @@ def main():
     # Validate configuration
     if LLM_PROVIDER != "ollama" and not LLM_API_KEY:
         print_fail("LLM_API_KEY is not set!")
-        print_info("Edit the CONFIGURATION section at the top of this file")
-        print_info("Set your API key for your chosen provider")
+        print_info("Set LLM_API_KEY in the environment for your chosen provider")
         sys.exit(1)
 
     # Create LLM provider
